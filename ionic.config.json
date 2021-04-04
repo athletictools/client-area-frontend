@@ -1,0 +1,7 @@
+{
+  "name": "client-area",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}
