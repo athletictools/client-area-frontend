@@ -1,26 +1,21 @@
 import {IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar} from '@ionic/react';
-import ExploreContainer from '../components/ExploreContainer';
 import './Tab4.css';
+import News from "../components/news/list";
 
 
 const Tab4: React.FC = () => {
     return (
         <IonPage>
-            <IonHeader>
+            <IonHeader translucent={true}>
                 <IonToolbar>
                     <IonButtons>
                         <IonMenuButton></IonMenuButton>
                     </IonButtons>
-                    <IonTitle>Контакты</IonTitle>
+                    <IonTitle>Новости</IonTitle>
                 </IonToolbar>
             </IonHeader>
             <IonContent fullscreen>
-                <IonHeader collapse="condense">
-                    <IonToolbar>
-                        <IonTitle size="large">News</IonTitle>
-                    </IonToolbar>
-                </IonHeader>
-                <ExploreContainer name="school news"/>
+                <News/>
             </IonContent>
         </IonPage>
     );
