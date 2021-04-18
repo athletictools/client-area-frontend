@@ -2,9 +2,9 @@ import {Redirect, Route} from 'react-router-dom';
 import {IonApp, IonIcon, IonLabel, IonRouterOutlet, IonTabBar, IonTabButton, IonTabs,} from '@ionic/react';
 import {IonReactRouter} from '@ionic/react-router';
 import {callOutline, ellipse, home, newspaper, square, wallet} from 'ionicons/icons';
-import Tab1 from './pages/Tab1';
+import HomePage from './pages/HomePage';
 import Tab2 from './pages/Tab2';
-import Tab3 from './pages/Tab3';
+import ContactsPage from './pages/contacts/ContactsPage';
 import NewsListPage from "./pages/news/list";
 import NewsDetailPage from "./pages/news/detail";
 
@@ -32,32 +32,29 @@ const App: React.FC = () => (
         <IonReactRouter>
             <IonTabs>
                 <IonRouterOutlet>
-                    <Route exact path="/tab1">
-                        <Tab1/>
+                    <Route exact path="/">
+                        <HomePage/>
                     </Route>
-                    <Route exact path="/tab2">
+                    <Route exact path="/payments">
                         <Tab2/>
                     </Route>
-                    <Route path="/tab3">
-                        <Tab3/>
+                    <Route path="/contacts">
+                        <ContactsPage/>
                     </Route>
-                    <Route exact path="/">
-                        <Redirect to="/tab1"/>
-                    </Route>
-                    <Route exact path="/news" component={NewsListPage}/>
+                    <Route exact path="/news" component={ NewsListPage }/>
                     <Route exact path="/news/:id"  component={ NewsDetailPage }/>
                 </IonRouterOutlet>
                 <IonTabBar slot="bottom">
-                    <IonTabButton tab="tab1" href="/tab1">
+                    <IonTabButton tab="home" href="/">
                         <IonIcon icon={home}/>
                     </IonTabButton>
-                    <IonTabButton tab="tab2" href="/tab2">
+                    <IonTabButton tab="payments" href="/">
                         <IonIcon icon={wallet}/>
                     </IonTabButton>
-                    <IonTabButton tab="tab4" href="/news">
+                    <IonTabButton tab="news" href="/news">
                         <IonIcon icon={newspaper}/>
                     </IonTabButton>
-                    <IonTabButton tab="tab3" href="/tab3">
+                    <IonTabButton tab="contacts" href="/contacts">
                         <IonIcon icon={callOutline}/>
                     </IonTabButton>
                 </IonTabBar>

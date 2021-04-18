@@ -1,14 +1,13 @@
 import React, {useEffect, useState} from "react";
 import {
-    IonAvatar,
-    IonButtons,
+    IonCard,
+    IonCardHeader,
+    IonCardSubtitle, IonCardTitle,
     IonContent,
     IonHeader,
-    IonItem,
-    IonLabel,
-    IonList,
-    IonMenuButton,
+    IonImg,
     IonPage,
+    IonRouterLink,
     IonTitle,
     IonToolbar
 } from "@ionic/react";
@@ -28,16 +27,11 @@ const NewsListPage: React.FC = () => {
         <IonPage>
             <IonHeader translucent={true}>
                 <IonToolbar>
-                    <IonButtons>
-                        <IonMenuButton></IonMenuButton>
-                    </IonButtons>
                     <IonTitle>Новости</IonTitle>
                 </IonToolbar>
             </IonHeader>
             <IonContent fullscreen>
-                <IonList>
-                    {news.map(entry => EntryItem({entry}))}
-                </IonList>
+                    {news.map(entry => EntryCard({entry}))}
             </IonContent>
         </IonPage>
     );
@@ -48,18 +42,18 @@ interface EntryItemProps {
     entry: Entry;
 }
 
-const EntryItem: React.FC<EntryItemProps> = ({entry}) => {
+const EntryCard: React.FC<EntryItemProps> = ({entry}) => {
     return (
-        <IonItem key={entry.id} routerLink={`/news/${entry.id}`}>
-            <IonAvatar slot={'start'}>
-                <img src="https://via.placeholder.com/150" alt=""/>
-            </IonAvatar>
-            <IonLabel>
-                <h2>{entry.title}</h2>
-                <h3></h3>
-                <p></p>
-            </IonLabel>
-        </IonItem>
+        <IonRouterLink routerLink={`/news/${entry.id}`}>
+            <IonCard>
+                <IonImg src="https://via.placeholder.com/150x50" />
+                <IonCardHeader>
+                    <IonCardTitle>{entry.title}</IonCardTitle>
+                </IonCardHeader>
+            </IonCard>
+        </IonRouterLink>
     )
 };
+
+
 export default NewsListPage;
