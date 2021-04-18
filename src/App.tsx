@@ -5,7 +5,8 @@ import {callOutline, ellipse, home, newspaper, square, wallet} from 'ionicons/ic
 import Tab1 from './pages/Tab1';
 import Tab2 from './pages/Tab2';
 import Tab3 from './pages/Tab3';
-import NewsListPage, {NewsDetailPage} from "./pages/NewsPage";
+import NewsListPage from "./pages/news/list";
+import NewsDetailPage from "./pages/news/detail";
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -44,7 +45,7 @@ const App: React.FC = () => (
                         <Redirect to="/tab1"/>
                     </Route>
                     <Route exact path="/news" component={NewsListPage}/>
-                    <Route exact path="/news/:id"  render={props => NewsDetailPage({id: props.match.id } )}/>
+                    <Route exact path="/news/:id"  component={ NewsDetailPage }/>
                 </IonRouterOutlet>
                 <IonTabBar slot="bottom">
                     <IonTabButton tab="tab1" href="/tab1">
