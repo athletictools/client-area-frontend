@@ -1,23 +1,26 @@
 import {
     IonAvatar,
-    IonButton,
-    IonButtons,
     IonCard,
-    IonCardContent, IonCardHeader, IonCardSubtitle,
+    IonCardContent,
+    IonCardHeader,
     IonCardTitle,
     IonContent,
     IonHeader,
-    IonIcon,
-    IonItem, IonItemDivider, IonItemGroup,
+    IonImg,
+    IonItem,
     IonLabel,
-    IonList, IonModal,
+    IonList,
     IonNote,
     IonPage,
+    IonRouterLink,
+    IonSlide,
+    IonSlides,
     IonTitle,
-    IonToolbar, useIonModal
+    IonToolbar
 } from '@ionic/react';
 import './HomePage.css';
-import React, {useState} from "react";
+import React from "react";
+import ActiveMemberships from "../components/memberships/ActiveMemberships";
 
 const HomePage: React.FC = () => {
     return (
@@ -28,6 +31,31 @@ const HomePage: React.FC = () => {
                 </IonToolbar>
             </IonHeader>
             <IonContent fullscreen>
+                <IonSlides pager={true} options={{
+                    initialSlide: 1,
+                    speed: 400
+                }}>
+                    <IonSlide>
+                        <IonRouterLink routerLink={`/news/1`}>
+                            <IonCard>
+                                <IonImg src="https://via.placeholder.com/650x150"/>
+                                <IonCardHeader>
+                                    <IonCardTitle>Новая новость 1</IonCardTitle>
+                                </IonCardHeader>
+                            </IonCard>
+                        </IonRouterLink>
+                    </IonSlide>
+                    <IonSlide>
+                        <IonRouterLink routerLink={`/news/2`}>
+                            <IonCard>
+                                <IonImg src="https://via.placeholder.com/650x150"/>
+                                <IonCardHeader>
+                                    <IonCardTitle>Новая новость 2</IonCardTitle>
+                                </IonCardHeader>
+                            </IonCard>
+                        </IonRouterLink>
+                    </IonSlide>
+                </IonSlides>
                 <IonCard>
                     <IonCardContent>
                         <IonList>
@@ -51,86 +79,12 @@ const HomePage: React.FC = () => {
 
                 <IonTitle>Активные абонементы</IonTitle>
 
-                <AbonementCard/>
+                <ActiveMemberships/>
 
             </IonContent>
         </IonPage>
     );
 };
 
-const AbonementCard: React.FC = () => {
-    const [showModal, setShowModal] = useState(false);
-
-    return (
-        <IonCard>
-            <IonCardContent>
-                <IonList>
-                    <IonItem>
-                        <IonLabel>Месяц 12 занятий</IonLabel>
-                    </IonItem>
-                    <IonItem>
-                        <IonLabel>Действует в группах</IonLabel>
-                        <IonNote slot="end">1300р</IonNote>
-                    </IonItem>
-                    <IonItem>
-                        <IonLabel>Стоимость</IonLabel>
-                        <IonNote slot="end">1800р</IonNote>
-                    </IonItem>
-                    <IonItem>
-                        <IonLabel>Остаток посещений</IonLabel>
-                        <IonNote slot="end">10 из 12</IonNote>
-                    </IonItem>
-                    <IonItem>
-                        <IonLabel>Срок действия</IonLabel>
-                        <IonNote slot="end">с 11.02.2020 до 12.03.2020</IonNote>
-                    </IonItem>
-                </IonList>
-
-                <IonModal isOpen={showModal} cssClass='my-custom-class'>
-                    <IonCard>
-                        <IonCardHeader>
-                            <IonCardTitle>Списания с абонемента</IonCardTitle>
-                        </IonCardHeader>
-                        <IonCardContent>
-                            <IonList>
-                                <IonItemGroup>
-                                    <IonItemDivider color="secondary">
-                                        <IonLabel>12.03.2020</IonLabel>
-                                    </IonItemDivider>
-
-                                    <IonItem>
-                                        <IonLabel>Был</IonLabel>
-                                    </IonItem>
-                                    <IonItem lines="none">
-                                        <IonLabel>Динамо 2008-2009 г.р.(1) /тр. Балезин ЛЕТО</IonLabel>
-                                    </IonItem>
-                                </IonItemGroup>
-                                <IonItemGroup>
-                                    <IonItemDivider color="secondary">
-                                        <IonLabel>11.03.2020</IonLabel>
-                                    </IonItemDivider>
-
-                                    <IonItem>
-                                        <IonLabel>Был</IonLabel>
-                                    </IonItem>
-                                    <IonItem lines="none">
-                                        <IonLabel>Динамо 2008-2009 г.р.(1) /тр. Балезин ЛЕТО</IonLabel>
-                                    </IonItem>
-                                </IonItemGroup>
-                            </IonList>
-                        </IonCardContent>
-                    </IonCard>
-                    <IonButton onClick={() => setShowModal(false)}>Закрыть</IonButton>
-                </IonModal>
-
-                <IonButton expand="block" onClick={() => {
-                    setShowModal(true)
-                }}>
-                    История посещений
-                </IonButton>
-            </IonCardContent>
-        </IonCard>
-    )
-}
 
 export default HomePage;

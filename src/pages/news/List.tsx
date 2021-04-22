@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import {
     IonCard,
     IonCardHeader,
-    IonCardSubtitle, IonCardTitle,
+    IonCardTitle,
     IonContent,
     IonHeader,
     IonImg,
@@ -16,11 +16,12 @@ import {NewsStore} from "../../components/news/store";
 
 const NewsListPage: React.FC = () => {
     const [news, setNews] = useState([] as Entry[])
-    useEffect( () => {
-        async function loadNews() {
+    useEffect(() => {
+        async function loadData() {
             setNews(await new NewsStore().list());
         }
-        loadNews()
+
+        loadData()
     }, [])
 
     return (
@@ -31,7 +32,7 @@ const NewsListPage: React.FC = () => {
                 </IonToolbar>
             </IonHeader>
             <IonContent fullscreen>
-                    {news.map(entry => EntryCard({entry}))}
+                {news.map(entry => EntryCard({entry}))}
             </IonContent>
         </IonPage>
     );
@@ -44,9 +45,9 @@ interface EntryItemProps {
 
 const EntryCard: React.FC<EntryItemProps> = ({entry}) => {
     return (
-        <IonRouterLink routerLink={`/news/${entry.id}`}>
+        <IonRouterLink routerLink={`/news/${entry.id}`} key={entry.id}>
             <IonCard>
-                <IonImg src="https://via.placeholder.com/150x50" />
+                <IonImg src="https://via.placeholder.com/150x50"/>
                 <IonCardHeader>
                     <IonCardTitle>{entry.title}</IonCardTitle>
                 </IonCardHeader>

@@ -19,31 +19,33 @@ import {RouteComponentProps} from "react-router";
 
 interface EntryDetailPageProps extends RouteComponentProps<{
     id: string;
-}> {}
+}> {
+}
 
 const NewsDetailPage: React.FC<EntryDetailPageProps> = ({match}) => {
     const entryId = +match.params.id
     const [entry, setEntry] = useState({} as Entry)
 
-    useEffect( () => {
+    useEffect(() => {
         async function loadEntry() {
             setEntry(await new NewsStore().detail(entryId));
         }
+
         loadEntry()
-    }, [entryId, ])
+    }, [entryId,])
 
     return (
         <IonPage>
             <IonHeader translucent={true}>
                 <IonToolbar>
                     <IonButtons slot="start">
-                        <IonBackButton defaultHref="home" text="Назад" />
+                        <IonBackButton defaultHref="home" text="Назад"/>
                     </IonButtons>
                     <IonTitle>Новости</IonTitle>
                 </IonToolbar>
             </IonHeader>
             <IonContent fullscreen>
-                <EntryCard entry={entry}></EntryCard>
+                <EntryCard entry={entry}/>
             </IonContent>
         </IonPage>
     );

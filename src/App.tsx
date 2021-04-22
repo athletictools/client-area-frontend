@@ -1,12 +1,11 @@
-import {Redirect, Route} from 'react-router-dom';
-import {IonApp, IonIcon, IonLabel, IonRouterOutlet, IonTabBar, IonTabButton, IonTabs,} from '@ionic/react';
+import {Route} from 'react-router-dom';
+import {IonApp, IonIcon, IonRouterOutlet, IonTabBar, IonTabButton, IonTabs,} from '@ionic/react';
 import {IonReactRouter} from '@ionic/react-router';
-import {callOutline, ellipse, home, newspaper, square, wallet} from 'ionicons/icons';
+import {callOutline, home, newspaper} from 'ionicons/icons';
 import HomePage from './pages/HomePage';
-import Tab2 from './pages/Tab2';
 import ContactsPage from './pages/contacts/ContactsPage';
-import NewsListPage from "./pages/news/list";
-import NewsDetailPage from "./pages/news/detail";
+import NewsListPage from "./pages/news/List";
+import NewsDetailPage from "./pages/news/Detail";
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -35,21 +34,15 @@ const App: React.FC = () => (
                     <Route exact path="/">
                         <HomePage/>
                     </Route>
-                    <Route exact path="/payments">
-                        <Tab2/>
-                    </Route>
                     <Route path="/contacts">
                         <ContactsPage/>
                     </Route>
-                    <Route exact path="/news" component={ NewsListPage }/>
-                    <Route exact path="/news/:id"  component={ NewsDetailPage }/>
+                    <Route exact path="/news" component={NewsListPage}/>
+                    <Route exact path="/news/:id" component={NewsDetailPage}/>
                 </IonRouterOutlet>
                 <IonTabBar slot="bottom">
                     <IonTabButton tab="home" href="/">
                         <IonIcon icon={home}/>
-                    </IonTabButton>
-                    <IonTabButton tab="payments" href="/">
-                        <IonIcon icon={wallet}/>
                     </IonTabButton>
                     <IonTabButton tab="news" href="/news">
                         <IonIcon icon={newspaper}/>
