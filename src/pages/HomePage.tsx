@@ -1,19 +1,23 @@
 import {
     IonAvatar,
+    IonButton,
+    IonButtons,
     IonCard,
-    IonCardContent,
-    IonCardHeader,
-    IonCardSubtitle,
+    IonCardContent, IonCardHeader, IonCardSubtitle,
+    IonCardTitle,
     IonContent,
     IonHeader,
-    IonImg, IonItem, IonLabel, IonList, IonNote,
+    IonIcon,
+    IonItem, IonItemDivider, IonItemGroup,
+    IonLabel,
+    IonList, IonModal,
+    IonNote,
     IonPage,
     IonTitle,
-    IonToolbar
+    IonToolbar, useIonModal
 } from '@ionic/react';
-import ExploreContainer from '../components/ExploreContainer';
 import './HomePage.css';
-import React from "react";
+import React, {useState} from "react";
 
 const HomePage: React.FC = () => {
     return (
@@ -44,9 +48,89 @@ const HomePage: React.FC = () => {
                         </IonList>
                     </IonCardContent>
                 </IonCard>
+
+                <IonTitle>Активные абонементы</IonTitle>
+
+                <AbonementCard/>
+
             </IonContent>
         </IonPage>
     );
 };
+
+const AbonementCard: React.FC = () => {
+    const [showModal, setShowModal] = useState(false);
+
+    return (
+        <IonCard>
+            <IonCardContent>
+                <IonList>
+                    <IonItem>
+                        <IonLabel>Месяц 12 занятий</IonLabel>
+                    </IonItem>
+                    <IonItem>
+                        <IonLabel>Действует в группах</IonLabel>
+                        <IonNote slot="end">1300р</IonNote>
+                    </IonItem>
+                    <IonItem>
+                        <IonLabel>Стоимость</IonLabel>
+                        <IonNote slot="end">1800р</IonNote>
+                    </IonItem>
+                    <IonItem>
+                        <IonLabel>Остаток посещений</IonLabel>
+                        <IonNote slot="end">10 из 12</IonNote>
+                    </IonItem>
+                    <IonItem>
+                        <IonLabel>Срок действия</IonLabel>
+                        <IonNote slot="end">с 11.02.2020 до 12.03.2020</IonNote>
+                    </IonItem>
+                </IonList>
+
+                <IonModal isOpen={showModal} cssClass='my-custom-class'>
+                    <IonCard>
+                        <IonCardHeader>
+                            <IonCardTitle>Списания с абонемента</IonCardTitle>
+                        </IonCardHeader>
+                        <IonCardContent>
+                            <IonList>
+                                <IonItemGroup>
+                                    <IonItemDivider color="secondary">
+                                        <IonLabel>12.03.2020</IonLabel>
+                                    </IonItemDivider>
+
+                                    <IonItem>
+                                        <IonLabel>Был</IonLabel>
+                                    </IonItem>
+                                    <IonItem lines="none">
+                                        <IonLabel>Динамо 2008-2009 г.р.(1) /тр. Балезин ЛЕТО</IonLabel>
+                                    </IonItem>
+                                </IonItemGroup>
+                                <IonItemGroup>
+                                    <IonItemDivider color="secondary">
+                                        <IonLabel>11.03.2020</IonLabel>
+                                    </IonItemDivider>
+
+                                    <IonItem>
+                                        <IonLabel>Был</IonLabel>
+                                    </IonItem>
+                                    <IonItem lines="none">
+                                        <IonLabel>Динамо 2008-2009 г.р.(1) /тр. Балезин ЛЕТО</IonLabel>
+                                    </IonItem>
+                                </IonItemGroup>
+                            </IonList>
+                        </IonCardContent>
+                    </IonCard>
+                    <IonButton onClick={() => setShowModal(false)}>Закрыть</IonButton>
+                </IonModal>
+
+                <IonButton expand="block" onClick={() => {
+                    setShowModal(true)
+                }}>
+                    История посещений
+                </IonButton>
+            </IonCardContent>
+        </IonCard>
+    )
+}
 
 export default HomePage;
