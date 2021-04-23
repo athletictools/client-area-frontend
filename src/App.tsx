@@ -25,9 +25,23 @@ import '@ionic/react/css/display.css';
 
 /* Theme variables */
 import './theme/variables.css';
+import React from "react";
+import SignInPage from "./pages/auth/Auth";
 
 const App: React.FC = () => (
     <IonApp>
+        <IonReactRouter>
+            <IonRouterOutlet>
+                <Route path="/" render={props => {
+                    return true ? <SignInPage/> : <ClientArea/>
+                }}/>
+            </IonRouterOutlet>
+        </IonReactRouter>
+    </IonApp>
+);
+
+const ClientArea: React.FC = () => {
+    return (
         <IonReactRouter>
             <IonTabs>
                 <IonRouterOutlet>
@@ -53,7 +67,8 @@ const App: React.FC = () => (
                 </IonTabBar>
             </IonTabs>
         </IonReactRouter>
-    </IonApp>
-);
+    )
+}
+
 
 export default App;
