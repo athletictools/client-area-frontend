@@ -1,11 +1,11 @@
 import {
-    IonAvatar,
+    IonAvatar, IonButton, IonButtons,
     IonCard,
     IonCardContent,
     IonCardHeader,
     IonCardTitle,
     IonContent,
-    IonHeader,
+    IonHeader, IonIcon,
     IonImg,
     IonItem,
     IonLabel,
@@ -21,6 +21,7 @@ import {
 import './HomePage.css';
 import React from "react";
 import ActiveMemberships from "../components/memberships/ActiveMemberships";
+import {home, logOut} from "ionicons/icons";
 
 const HomePage: React.FC = () => {
     return (
@@ -28,6 +29,11 @@ const HomePage: React.FC = () => {
             <IonHeader>
                 <IonToolbar>
                     <IonTitle>Личный кабинет</IonTitle>
+                    <IonButtons slot="end">
+                        <IonButton onClick={()=>{alert("sign out")}}>
+                            <IonIcon icon={logOut}/>
+                        </IonButton>
+                    </IonButtons>
                 </IonToolbar>
             </IonHeader>
             <IonContent fullscreen>
