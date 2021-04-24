@@ -1,11 +1,12 @@
 import React, {useState} from "react";
 import {
-    IonBackButton,
-    IonButton, IonButtons,
+    IonButton,
+    IonButtons,
     IonCol,
     IonContent,
     IonGrid,
-    IonHeader, IonIcon,
+    IonHeader,
+    IonIcon,
     IonImg,
     IonInput,
     IonPage,
@@ -13,7 +14,7 @@ import {
     IonTitle,
     IonToolbar
 } from "@ionic/react";
-import {arrowBack, backspace} from "ionicons/icons";
+import {arrowBack} from "ionicons/icons";
 
 enum AuthScreen {
     PHONE_INPUT,
@@ -31,7 +32,9 @@ const SignInPage: React.FC = () => {
                     {currentScreen === AuthScreen.PHONE_CONFIRMATION &&
                     (
                         <IonButtons slot="start">
-                            <IonButton onClick={()=>{setCurrentScreen(AuthScreen.PHONE_INPUT)}}>
+                            <IonButton onClick={() => {
+                                setCurrentScreen(AuthScreen.PHONE_INPUT)
+                            }}>
                                 <IonIcon icon={arrowBack}></IonIcon>Назад
                             </IonButton>
                         </IonButtons>
@@ -49,11 +52,15 @@ const SignInPage: React.FC = () => {
                     </IonRow>
                     <IonRow>
                         <IonCol offset="1" size="10">
-                            {currentScreen }
-                            <PhoneNumber phoneNumber={phoneNumber} onPhoneEntered={(num) => {
-                                setPhoneNumber(num);
-                                setCurrentScreen(AuthScreen.PHONE_CONFIRMATION);
-                            }}/>
+                            {
+                                currentScreen === AuthScreen.PHONE_INPUT ?
+                                    <PhoneNumber phoneNumber={phoneNumber} onPhoneEntered={(num) => {
+                                        setPhoneNumber(num);
+                                        setCurrentScreen(AuthScreen.PHONE_CONFIRMATION)
+                                    }}/> : <ConfirmationCode phoneNumber={phoneNumber} onCodeEntered={(code) => {
+                                        setCurrentScreen(AuthScreen.PHONE_CONFIRMATION)
+                                    }}/>
+                            }
                         </IonCol>
                     </IonRow>
 
@@ -81,6 +88,32 @@ const PhoneNumber: React.FC<PhoneNumberProps> = ({onPhoneEntered, phoneNumber}) 
                 <IonCol>
                     <IonButton expand="full" onClick={() => {
                         onPhoneEntered("")
+                    }}>Войти</IonButton>
+                </IonCol>
+            </IonRow>
+        </>
+    )
+}
+
+
+interface ConfirmationCodeProps {
+    phoneNumber: string;
+    onCodeEntered: (code: string) => void;
+}
+
+const ConfirmationCode: React.FC<ConfirmationCodeProps> = ({onCodeEntered, phoneNumber}) => {
+    return (
+        <>
+            <IonRow>
+                <IonCol>
+                    <IonInput inputmode="tel" value={phoneNumber} placeholder="Введите код из смс"/>
+                </IonCol>
+            </IonRow>
+
+            <IonRow>
+                <IonCol>
+                    <IonButton expand="full" onClick={() => {
+                        onCodeEntered("")
                     }}>Войти</IonButton>
                 </IonCol>
             </IonRow>
