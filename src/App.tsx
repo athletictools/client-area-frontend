@@ -27,17 +27,21 @@ import '@ionic/react/css/display.css';
 import './theme/variables.css';
 import React from "react";
 import SignInPage from "./pages/auth/Auth";
+import {Provider} from "react-redux";
+import store from "./store";
 
 const App: React.FC = () => (
-    <IonApp>
-        <IonReactRouter>
-            <IonRouterOutlet>
-                <Route path="/" render={props => {
-                    return true ? <SignInPage/> : <ClientArea/>
-                }}/>
-            </IonRouterOutlet>
-        </IonReactRouter>
-    </IonApp>
+    <Provider store={store}>
+        <IonApp>
+            <IonReactRouter>
+                <IonRouterOutlet>
+                    <Route path="/" render={props => {
+                        return false ? <SignInPage/> : <ClientArea/>
+                    }}/>
+                </IonRouterOutlet>
+            </IonReactRouter>
+        </IonApp>
+    </Provider>
 );
 
 const ClientArea: React.FC = () => {
