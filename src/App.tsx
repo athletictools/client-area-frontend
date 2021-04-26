@@ -1,4 +1,4 @@
-import {Redirect, Route} from 'react-router-dom';
+import {Redirect, Route, RouteProps} from 'react-router-dom';
 import {IonApp, IonIcon, IonRouterOutlet, IonTabBar, IonTabButton, IonTabs,} from '@ionic/react';
 import {IonReactRouter} from '@ionic/react-router';
 import {callOutline, home, newspaper} from 'ionicons/icons';
@@ -25,7 +25,7 @@ import '@ionic/react/css/display.css';
 
 /* Theme variables */
 import './theme/variables.css';
-import React, {Component} from "react";
+import React from "react";
 import SignInPage from "./pages/auth/Auth";
 import {Provider} from "react-redux";
 import store from "./store";
@@ -35,8 +35,7 @@ const App: React.FC = () => (
         <IonApp>
             <IonReactRouter>
                 <IonRouterOutlet>
-
-                    <Route path="/login" component={SignInPage}/>
+                    <Route path="/" component={SignInPage}/>
                     <PrivateRoute path="/lk/" component={ClientArea}/>
                 </IonRouterOutlet>
             </IonReactRouter>
@@ -44,17 +43,17 @@ const App: React.FC = () => (
     </Provider>
 );
 
-function PrivateRoute({ component: Component, ...rest }) {
+const PrivateRoute: React.FC<RouteProps> = (props) => {
     return (
         <Route
-            {...rest}
+            path={props.path}
             render={props =>
                 store.getState().user ? (
-                    <Component {...props} />
+                    <ClientArea />
                 ) : (
                     <Redirect
                         to={{
-                            pathname: "/login",
+                            pathname: "/",
                             state: { from: props.location }
                         }}
                     />
@@ -62,7 +61,7 @@ function PrivateRoute({ component: Component, ...rest }) {
             }
         />
     );
-}
+};
 
 const ClientArea: React.FC = () => {
     return (
