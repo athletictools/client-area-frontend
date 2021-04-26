@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {Membership, Visit} from "./models";
 import MembershipCard from "./MembershipCard";
-import MembershipStore from "./store";
+import MembershipStore from "../../services/memberships";
 import {IonButton, IonModal} from "@ionic/react";
 import VisitsCard from "./VisitsCard";
 

@@ -1,4 +1,4 @@
-import {Membership} from "./models";
+import {Membership} from "../components/memberships/models";
 
 
 class MembershipStore {

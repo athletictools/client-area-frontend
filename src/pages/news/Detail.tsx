@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {Entry} from "../../components/news/models";
-import {NewsStore} from "../../components/news/store";
+import {NewsStore} from "../../services/news";
 import {
     IonBackButton,
     IonButtons,

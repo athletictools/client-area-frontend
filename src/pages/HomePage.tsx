@@ -1,11 +1,14 @@
 import {
-    IonAvatar, IonButton, IonButtons,
+    IonAvatar,
+    IonButton,
+    IonButtons,
     IonCard,
     IonCardContent,
     IonCardHeader,
     IonCardTitle,
     IonContent,
-    IonHeader, IonIcon,
+    IonHeader,
+    IonIcon,
     IonImg,
     IonItem,
     IonLabel,
@@ -21,7 +24,9 @@ import {
 import './HomePage.css';
 import React from "react";
 import ActiveMemberships from "../components/memberships/ActiveMemberships";
-import {home, logOut} from "ionicons/icons";
+import {logOut} from "ionicons/icons";
+import store from "../store";
+import {setUser} from "../store/auth";
 
 const HomePage: React.FC = () => {
     return (
@@ -30,7 +35,7 @@ const HomePage: React.FC = () => {
                 <IonToolbar>
                     <IonTitle>Личный кабинет</IonTitle>
                     <IonButtons slot="end">
-                        <IonButton onClick={()=>{alert("sign out")}}>
+                        <IonButton onClick={()=>{store.dispatch(setUser(null))}}>
                             <IonIcon icon={logOut}/>
                         </IonButton>
                     </IonButtons>

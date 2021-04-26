@@ -12,7 +12,7 @@ import {
     IonToolbar
 } from "@ionic/react";
 import {Entry} from "../../components/news/models";
-import {NewsStore} from "../../components/news/store";
+import {NewsStore} from "../../services/news";
 
 const NewsListPage: React.FC = () => {
     const [news, setNews] = useState([] as Entry[])

@@ -1,4 +1,4 @@
-import {Entry} from "./models";
+import {Entry} from "../components/news/models";
 
 
 export class NewsStore {

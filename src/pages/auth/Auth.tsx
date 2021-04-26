@@ -15,6 +15,9 @@ import {
     IonToolbar
 } from "@ionic/react";
 import {arrowBack} from "ionicons/icons";
+import store from "../../store";
+import {setUser} from "../../store/auth";
+import {AuthStore} from "../../services/auth";
 
 enum AuthScreen {
     PHONE_INPUT,
@@ -24,6 +27,16 @@ enum AuthScreen {
 const SignInPage: React.FC = () => {
     const [phoneNumber, setPhoneNumber] = useState("");
     const [currentScreen, setCurrentScreen] = useState(AuthScreen.PHONE_INPUT);
+
+    const phoneEntered = (num: string) => {
+        setPhoneNumber(num);
+        setCurrentScreen(AuthScreen.PHONE_CONFIRMATION)
+    };
+
+    const codeEntered = (code: string) => {
+        (new AuthStore()).signIn(phoneNumber, code);
+        store.dispatch(setUser({fullName: "Hi, Evgeny"}));
+    };
 
     return (
         <IonPage>
@@ -35,7 +48,7 @@ const SignInPage: React.FC = () => {
                             <IonButton onClick={() => {
                                 setCurrentScreen(AuthScreen.PHONE_INPUT)
                             }}>
-                                <IonIcon icon={arrowBack}></IonIcon>Назад
+                                <IonIcon icon={arrowBack}/>Назад
                             </IonButton>
                         </IonButtons>
                     )}
@@ -54,12 +67,8 @@ const SignInPage: React.FC = () => {
                         <IonCol offset="1" size="10">
                             {
                                 currentScreen === AuthScreen.PHONE_INPUT ?
-                                    <PhoneNumber phoneNumber={phoneNumber} onPhoneEntered={(num) => {
-                                        setPhoneNumber(num);
-                                        setCurrentScreen(AuthScreen.PHONE_CONFIRMATION)
-                                    }}/> : <ConfirmationCode phoneNumber={phoneNumber} onCodeEntered={(code) => {
-                                        setCurrentScreen(AuthScreen.PHONE_CONFIRMATION)
-                                    }}/>
+                                    <PhoneNumber phoneNumber={phoneNumber} onPhoneEntered={phoneEntered}/> :
+                                    <ConfirmationCode phoneNumber={phoneNumber} onCodeEntered={codeEntered}/>
                             }
                         </IonCol>
                     </IonRow>
