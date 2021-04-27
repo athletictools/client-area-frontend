@@ -25,14 +25,10 @@ enum AuthScreen {
 
 const SignInPage: React.FC<{ setUser: (user: User) => void }> = ({setUser}) => {
     const [phoneNumber, setPhoneNumber] = useState("");
+    const [code, setCode] = useState("");
     const [currentScreen, setCurrentScreen] = useState(AuthScreen.PHONE_INPUT);
 
-    const phoneEntered = (num: string) => {
-        setPhoneNumber(num);
-        setCurrentScreen(AuthScreen.PHONE_CONFIRMATION)
-    };
-
-    const codeEntered = (code: string) => {
+    const codeEntered = () => {
         (new AuthStore()).signIn(phoneNumber, code);
         setUser({fullName: "Hi, Evgeny"})
     };
@@ -66,8 +62,12 @@ const SignInPage: React.FC<{ setUser: (user: User) => void }> = ({setUser}) => {
                         <IonCol offset="1" size="10">
                             {
                                 currentScreen === AuthScreen.PHONE_INPUT ?
-                                    <PhoneNumber phoneNumber={phoneNumber} onPhoneEntered={phoneEntered}/> :
-                                    <ConfirmationCode phoneNumber={phoneNumber} onCodeEntered={codeEntered}/>
+                                    <PhoneNumber phoneNumber={phoneNumber}
+                                                 setPhoneNumber={setPhoneNumber}
+                                                 onPhoneEntered={
+                                                     () => setCurrentScreen(AuthScreen.PHONE_CONFIRMATION)
+                                                 }/> :
+                                    <ConfirmationCode code={code} setCode={setCode} onCodeEntered={codeEntered}/>
                             }
                         </IonCol>
                     </IonRow>
@@ -80,23 +80,25 @@ const SignInPage: React.FC<{ setUser: (user: User) => void }> = ({setUser}) => {
 
 interface PhoneNumberProps {
     phoneNumber: string;
-    onPhoneEntered: (num: string) => void;
+    setPhoneNumber: (num: string) => void;
+    onPhoneEntered: () => void;
 }
 
-const PhoneNumber: React.FC<PhoneNumberProps> = ({onPhoneEntered, phoneNumber}) => {
+const PhoneNumber: React.FC<PhoneNumberProps> = ({onPhoneEntered, phoneNumber, setPhoneNumber}) => {
     return (
         <>
             <IonRow>
                 <IonCol>
-                    <IonInput inputmode="tel" value={phoneNumber} placeholder="Введите номер телефона"/>
+                    <IonInput inputmode="tel"
+                              value={phoneNumber}
+                              onIonChange={e => setPhoneNumber(e.detail.value!)}
+                              placeholder="Введите номер телефона"/>
                 </IonCol>
             </IonRow>
 
             <IonRow>
                 <IonCol>
-                    <IonButton expand="full" onClick={() => {
-                        onPhoneEntered("")
-                    }}>Войти</IonButton>
+                    <IonButton expand="full" onClick={onPhoneEntered}>Выслать код</IonButton>
                 </IonCol>
             </IonRow>
         </>
@@ -105,24 +107,28 @@ const PhoneNumber: React.FC<PhoneNumberProps> = ({onPhoneEntered, phoneNumber}) 
 
 
 interface ConfirmationCodeProps {
-    phoneNumber: string;
-    onCodeEntered: (code: string) => void;
+    code: string;
+    setCode: (code: string) => void;
+    onCodeEntered: () => void;
 }
 
-const ConfirmationCode: React.FC<ConfirmationCodeProps> = ({onCodeEntered, phoneNumber}) => {
+const ConfirmationCode: React.FC<ConfirmationCodeProps> = ({code, onCodeEntered, setCode}) => {
     return (
         <>
             <IonRow>
                 <IonCol>
-                    <IonInput inputmode="tel" value={phoneNumber} placeholder="Введите код из смс"/>
+                    <IonInput inputmode="numeric"
+                              value={code}
+                              onIonChange={e => setCode(e.detail.value!)}
+                              placeholder="Введите код из смс"/>
                 </IonCol>
             </IonRow>
 
             <IonRow>
                 <IonCol>
                     <IonButton expand="full" onClick={() => {
-                        onCodeEntered("")
-                    }}>Войти</IonButton>
+                        onCodeEntered()
+                    }}>Подтвердить</IonButton>
                 </IonCol>
             </IonRow>
         </>
