@@ -1,11 +1,5 @@
-import store from "../store";
 import User from "../auth/models";
 import {useState} from "react";
-
-store.subscribe(() => {
-    const user = store.getState().user;
-    console.log(user);
-});
 
 export const useUser = () => {
     const userKey = 'user';

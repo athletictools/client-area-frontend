@@ -27,8 +27,6 @@ import '@ionic/react/css/display.css';
 import './theme/variables.css';
 import React from "react";
 import SignInPage from "./pages/auth/Auth";
-import {Provider} from "react-redux";
-import store from "./store";
 import User from "./auth/models";
 import {useUser} from "./services/auth";
 
@@ -42,15 +40,13 @@ const App: React.FC = () => {
     }
 
     return (
-        <Provider store={store}>
-            <IonApp>
-                <IonReactRouter>
-                    <IonRouterOutlet>
-                        <Route path="/" render={() => <ClientArea setUser={setUser}/>}/>
-                    </IonRouterOutlet>
-                </IonReactRouter>
-            </IonApp>
-        </Provider>
+        <IonApp>
+            <IonReactRouter>
+                <IonRouterOutlet>
+                    <Route path="/" render={() => <ClientArea setUser={setUser}/>}/>
+                </IonRouterOutlet>
+            </IonReactRouter>
+        </IonApp>
     );
 }
 
