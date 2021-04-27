@@ -2,7 +2,7 @@ import {Membership, Visit} from "../components/memberships/models";
 import MembershipStore from "./memberships";
 
 
-test('index return entry list', async () => {
+test('store return entry list', async () => {
     const store = new MembershipStore()
     const expectedMemberships = [
         {

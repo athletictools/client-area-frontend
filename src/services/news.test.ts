@@ -2,7 +2,7 @@ import {Entry} from "../components/news/models";
 import {NewsStore} from "./news";
 
 
-test('index return entry list', async () => {
+test('store return entry list', async () => {
     const store = new NewsStore()
     const expectedNews = [
         {id: 1, title: 'title', content: 'content'} as Entry,
