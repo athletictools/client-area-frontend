@@ -31,7 +31,6 @@ import {Provider} from "react-redux";
 import store from "./store";
 import User from "./auth/models";
 import {useUser} from "./services/auth";
-import PageNotFound from "./pages/NotFound";
 
 const App: React.FC = () => {
     const {user, setUser} = useUser()
