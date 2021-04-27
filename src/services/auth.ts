@@ -1,9 +1,34 @@
 import store from "../store";
+import User from "../auth/models";
+import {useState} from "react";
 
 store.subscribe(() => {
     const user = store.getState().user;
     console.log(user);
 });
+
+export const useUser = () => {
+    const userKey = 'user';
+    const getToken = () => {
+        const tokenString = localStorage.getItem(userKey);
+        if (tokenString === null) {
+            return null
+        }
+        return JSON.parse(tokenString);
+    };
+
+    const [user, setUser] = useState(getToken());
+
+    const saveUser = (user: User | null) => {
+        localStorage.setItem(userKey, JSON.stringify(user));
+        setUser(user);
+    };
+
+    return {
+        setUser: saveUser,
+        user
+    }
+};
 
 
 export class AuthStore {

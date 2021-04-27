@@ -15,16 +15,15 @@ import {
     IonToolbar
 } from "@ionic/react";
 import {arrowBack} from "ionicons/icons";
-import store from "../../store";
-import {setUser} from "../../store/auth";
 import {AuthStore} from "../../services/auth";
+import User from "../../auth/models";
 
 enum AuthScreen {
     PHONE_INPUT,
     PHONE_CONFIRMATION = 1,
 }
 
-const SignInPage: React.FC = () => {
+const SignInPage: React.FC<{ setUser: (user: User) => void }> = ({setUser}) => {
     const [phoneNumber, setPhoneNumber] = useState("");
     const [currentScreen, setCurrentScreen] = useState(AuthScreen.PHONE_INPUT);
 
@@ -35,7 +34,7 @@ const SignInPage: React.FC = () => {
 
     const codeEntered = (code: string) => {
         (new AuthStore()).signIn(phoneNumber, code);
-        store.dispatch(setUser({fullName: "Hi, Evgeny"}));
+        setUser({fullName: "Hi, Evgeny"})
     };
 
     return (

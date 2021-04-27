@@ -25,17 +25,18 @@ import './HomePage.css';
 import React from "react";
 import ActiveMemberships from "../components/memberships/ActiveMemberships";
 import {logOut} from "ionicons/icons";
-import store from "../store";
-import {setUser} from "../store/auth";
+import User from "../auth/models";
 
-const HomePage: React.FC = () => {
+const HomePage: React.FC<{ setUser: (user: User | null) => void }> = ({setUser}) => {
     return (
         <IonPage>
             <IonHeader>
                 <IonToolbar>
                     <IonTitle>Личный кабинет</IonTitle>
                     <IonButtons slot="end">
-                        <IonButton onClick={()=>{store.dispatch(setUser(null))}}>
+                        <IonButton onClick={() => {
+                            setUser(null)
+                        }}>
                             <IonIcon icon={logOut}/>
                         </IonButton>
                     </IonButtons>

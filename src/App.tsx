@@ -1,4 +1,4 @@
-import {Redirect, Route, RouteProps} from 'react-router-dom';
+import {Route} from 'react-router-dom';
 import {IonApp, IonIcon, IonRouterOutlet, IonTabBar, IonTabButton, IonTabs,} from '@ionic/react';
 import {IonReactRouter} from '@ionic/react-router';
 import {callOutline, home, newspaper} from 'ionicons/icons';
@@ -29,49 +29,41 @@ import React from "react";
 import SignInPage from "./pages/auth/Auth";
 import {Provider} from "react-redux";
 import store from "./store";
+import User from "./auth/models";
+import {useUser} from "./services/auth";
+import PageNotFound from "./pages/NotFound";
 
-const App: React.FC = () => (
-    <Provider store={store}>
-        <IonApp>
-            <IonReactRouter>
-                <IonRouterOutlet>
-                    <Route path="/" component={SignInPage}/>
-                    <PrivateRoute path="/lk/" component={ClientArea}/>
-                </IonRouterOutlet>
-            </IonReactRouter>
-        </IonApp>
-    </Provider>
-);
+const App: React.FC = () => {
+    const {user, setUser} = useUser()
 
-const PrivateRoute: React.FC<RouteProps> = (props) => {
+    if (!user) {
+        return (
+            <SignInPage setUser={setUser}/>
+        )
+    }
+
     return (
-        <Route
-            path={props.path}
-            render={props =>
-                store.getState().user ? (
-                    <ClientArea />
-                ) : (
-                    <Redirect
-                        to={{
-                            pathname: "/",
-                            state: { from: props.location }
-                        }}
-                    />
-                )
-            }
-        />
+        <Provider store={store}>
+            <IonApp>
+                <IonReactRouter>
+                    <IonRouterOutlet>
+                        <Route path="/" render={() => <ClientArea setUser={setUser}/>}/>
+                    </IonRouterOutlet>
+                </IonReactRouter>
+            </IonApp>
+        </Provider>
     );
-};
+}
 
-const ClientArea: React.FC = () => {
+const ClientArea: React.FC<{ setUser: (user: User | null) => void }> = ({setUser}) => {
     return (
         <IonReactRouter>
             <IonTabs>
                 <IonRouterOutlet>
                     <Route exact path="/">
-                        <HomePage/>
+                        <HomePage setUser={setUser}/>
                     </Route>
-                    <Route path="/contacts">
+                    <Route exact path="/contacts">
                         <ContactsPage/>
                     </Route>
                     <Route exact path="/news" component={NewsListPage}/>
