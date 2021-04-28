@@ -28,14 +28,23 @@ import './theme/variables.css';
 import React from "react";
 import SignInPage from "./pages/auth/Auth";
 import User from "./auth/models";
-import {useUser} from "./services/auth";
+import {AuthStore, useUser} from "./services/auth";
+import MembershipService from "./services/memberships";
+import FetchHttpClient from "./httpClient";
+import NewsService from "./services/news";
 
 const App: React.FC = () => {
+    const baseApiUrl = 'http://localhost:3000';
+    const fetchHttpClient = new FetchHttpClient()
+    const membershipService = new MembershipService(fetchHttpClient, baseApiUrl);
+    const authService = new AuthStore(fetchHttpClient, baseApiUrl);
+    const newsService = new NewsService(fetchHttpClient, baseApiUrl);
+
     const {user, setUser} = useUser()
 
     if (!user) {
         return (
-            <SignInPage setUser={setUser}/>
+            <SignInPage setUser={setUser} authService={authService}/>
         )
     }
 
@@ -43,26 +52,40 @@ const App: React.FC = () => {
         <IonApp>
             <IonReactRouter>
                 <IonRouterOutlet>
-                    <Route path="/" render={() => <ClientArea setUser={setUser}/>}/>
+                    <Route path="/">
+                        <ClientArea setUser={setUser} membershipService={membershipService} newsService={newsService}/>
+                    </Route>
                 </IonRouterOutlet>
             </IonReactRouter>
         </IonApp>
     );
 }
 
-const ClientArea: React.FC<{ setUser: (user: User | null) => void }> = ({setUser}) => {
+
+interface ClientAreaProps {
+    setUser: (user: User | null) => void;
+    membershipService: MembershipService;
+    newsService: NewsService;
+}
+
+
+const ClientArea: React.FC<ClientAreaProps> = ({setUser, membershipService, newsService}) => {
     return (
         <IonReactRouter>
             <IonTabs>
                 <IonRouterOutlet>
                     <Route exact path="/">
-                        <HomePage setUser={setUser}/>
+                        <HomePage setUser={setUser} membershipService={membershipService}/>
                     </Route>
                     <Route exact path="/contacts">
                         <ContactsPage/>
                     </Route>
-                    <Route exact path="/news" component={NewsListPage}/>
-                    <Route exact path="/news/:id" component={NewsDetailPage}/>
+                    <Route exact path="/news">
+                        <NewsListPage newService={newsService}/>
+                    </Route>
+                    <Route exact path="/news/:id">
+                        <NewsDetailPage newsService={newsService} />
+                    </Route>
                 </IonRouterOutlet>
                 <IonTabBar slot="bottom">
                     <IonTabButton tab="home" href="/">

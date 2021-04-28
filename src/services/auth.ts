@@ -1,5 +1,6 @@
 import User from "../auth/models";
 import {useState} from "react";
+import {HttpClient} from "../types";
 
 export const useUser = () => {
     const userKey = 'user';
@@ -26,23 +27,24 @@ export const useUser = () => {
 
 
 export class AuthStore {
-    private baseUrl = 'http://localhost:3000';
+    private readonly baseUrl: string;
+    private readonly http: HttpClient;
 
-    private async fetch(url: string, init?: RequestInit): Promise<Response> {
-        return await fetch(this.baseUrl + url, init)
+    constructor(http: HttpClient, baseUrl: string) {
+        this.http = http;
+        this.baseUrl = baseUrl;
     }
 
-    async signIn(phoneNo: string, validationCode: string): Promise<Response> {
+    async signIn(phoneNo: string, validationCode: string): Promise<User> {
         const req = {
             method: "POST",
             body: JSON.stringify({phoneNo, validationCode}),
         };
-        const res = await this.fetch('/login', req)
+        const res = await this.http.post(this.baseUrl + '/login', req);
         return await res.json();
     }
 
-    async signOut() {
-        const res = await this.fetch('/logout', {method: "POST"})
-        return await res.json();
+    async signOut(): Promise<void> {
+        const res = await this.http.post(this.baseUrl + '/logout', {});
     }
 }

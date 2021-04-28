@@ -12,13 +12,13 @@ import {
     IonToolbar
 } from "@ionic/react";
 import {Entry} from "../../components/news/models";
-import {NewsStore} from "../../services/news";
+import NewsService from "../../services/news";
 
-const NewsListPage: React.FC = () => {
+const NewsListPage: React.FC<{newService: NewsService}> = ({newService}) => {
     const [news, setNews] = useState([] as Entry[])
     useEffect(() => {
         async function loadData() {
-            setNews(await new NewsStore().list());
+            setNews(await newService.list());
         }
 
         loadData()

@@ -23,13 +23,19 @@ enum AuthScreen {
     PHONE_CONFIRMATION = 1,
 }
 
-const SignInPage: React.FC<{ setUser: (user: User) => void }> = ({setUser}) => {
+interface SignInPageProps {
+    setUser: (user: User) => void;
+    authService: AuthStore;
+}
+
+
+const SignInPage: React.FC<SignInPageProps> = ({setUser, authService}) => {
     const [phoneNumber, setPhoneNumber] = useState("");
     const [code, setCode] = useState("");
     const [currentScreen, setCurrentScreen] = useState(AuthScreen.PHONE_INPUT);
 
     const codeEntered = () => {
-        (new AuthStore()).signIn(phoneNumber, code);
+        authService.signIn(phoneNumber, code);
         setUser({fullName: "Hi, Evgeny"})
     };
 

@@ -1,20 +1,23 @@
 import {Entry} from "../components/news/models";
+import {HttpClient} from "../types";
 
 
-export class NewsStore {
-    private baseUrl = 'http://localhost:3000';
+export default class NewsService {
+    private readonly baseUrl: string;
+    private readonly http: HttpClient;
 
-    private async fetch(url: string, init?: RequestInit): Promise<Response> {
-        return await fetch(this.baseUrl + url)
+    constructor(http: HttpClient, baseUrl: string) {
+        this.http = http;
+        this.baseUrl = baseUrl;
     }
 
     async list(): Promise<Entry[]> {
-        const res = await this.fetch('/news');
+        const res = await this.http.get(this.baseUrl + '/news');
         return await res.json();
     }
 
     async detail(id: number): Promise<Entry> {
-        const res = await this.fetch(`/news/${id}`);
+        const res = await this.http.get(this.baseUrl + `/news/${id}`);
         return await res.json();
     }
 }

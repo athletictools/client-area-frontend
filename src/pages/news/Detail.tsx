@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {Entry} from "../../components/news/models";
-import {NewsStore} from "../../services/news";
+import NewsService from "../../services/news";
 import {
     IonBackButton,
     IonButtons,
@@ -20,15 +20,17 @@ import {RouteComponentProps} from "react-router";
 interface EntryDetailPageProps extends RouteComponentProps<{
     id: string;
 }> {
+    newsService: NewsService;
 }
 
-const NewsDetailPage: React.FC<EntryDetailPageProps> = ({match}) => {
+
+const NewsDetailPage: React.FC<EntryDetailPageProps> = ({match, newsService}) => {
     const entryId = +match.params.id
     const [entry, setEntry] = useState({} as Entry)
 
     useEffect(() => {
         async function loadEntry() {
-            setEntry(await new NewsStore().detail(entryId));
+            setEntry(await newsService.detail(entryId));
         }
 
         loadEntry()

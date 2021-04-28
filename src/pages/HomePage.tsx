@@ -22,12 +22,30 @@ import {
     IonToolbar
 } from '@ionic/react';
 import './HomePage.css';
-import React from "react";
+import React, {useEffect, useState} from "react";
 import ActiveMemberships from "../components/memberships/ActiveMemberships";
 import {logOut} from "ionicons/icons";
 import User from "../auth/models";
+import {Membership} from "../components/memberships/models";
+import MembershipService from "../services/memberships";
 
-const HomePage: React.FC<{ setUser: (user: User | null) => void }> = ({setUser}) => {
+interface HomePageProps {
+    setUser: (user: User | null) => void;
+    membershipService: MembershipService;
+}
+
+
+const HomePage: React.FC<HomePageProps> = ({setUser, membershipService}) => {
+    const [memberships, setMemberships] = useState([] as Membership[])
+
+    useEffect(() => {
+        async function loadData() {
+            setMemberships(await membershipService.active());
+        }
+
+        loadData()
+    }, [])
+
     return (
         <IonPage>
             <IonHeader>
@@ -91,7 +109,7 @@ const HomePage: React.FC<{ setUser: (user: User | null) => void }> = ({setUser})
 
                 <IonTitle>Активные абонементы</IonTitle>
 
-                <ActiveMemberships/>
+                <ActiveMemberships memberships={memberships}/>
 
             </IonContent>
         </IonPage>

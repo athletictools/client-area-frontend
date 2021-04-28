@@ -1,9 +1,9 @@
 import {Entry} from "../components/news/models";
-import {NewsStore} from "./news";
+import NewsService from "./news";
 
 
 test('store return entry list', async () => {
-    const store = new NewsStore()
+    const store = new NewsService()
     const expectedNews = [
         {id: 1, title: 'title', content: 'content'} as Entry,
     ]

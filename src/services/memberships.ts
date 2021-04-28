@@ -1,16 +1,24 @@
 import {Membership} from "../components/memberships/models";
+import {HttpClient} from "../types";
 
 
-class MembershipStore {
-    private baseUrl = 'http://localhost:3000';
+class MembershipService {
+    private readonly baseUrl: string;
+    private readonly http: HttpClient;
 
-    private async fetch(url: string, init?: RequestInit): Promise<Response> {
-        return fetch(this.baseUrl + url)
+    constructor(http: HttpClient, baseUrl: string) {
+        this.http = http;
+        this.baseUrl = baseUrl;
+    }
+
+    get activeUrl(): string {
+        return this.baseUrl + '/memberships';
     }
 
     async active(): Promise<Membership[]> {
-        return this.fetch('/memberships').then(res => res.json())
+        const res = await this.http.get(this.activeUrl);
+        return await res.json();
     }
 }
 
-export default MembershipStore;
+export default MembershipService;
