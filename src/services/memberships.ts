@@ -11,13 +11,9 @@ class MembershipService {
         this.baseUrl = baseUrl;
     }
 
-    get activeUrl(): string {
-        return this.baseUrl + '/memberships';
-    }
-
     async active(): Promise<Membership[]> {
-        const res = await this.http.get(this.activeUrl);
-        return await res.json();
+        const res = await this.http.get(this.baseUrl + '/memberships');
+        return res.json();
     }
 }
 

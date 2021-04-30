@@ -83,8 +83,7 @@ const ClientArea: React.FC<ClientAreaProps> = ({setUser, membershipService, news
                     <Route exact path="/news">
                         <NewsListPage newService={newsService}/>
                     </Route>
-                    <Route exact path="/news/:id">
-                        <NewsDetailPage newsService={newsService} />
+                    <Route exact path="/news/:id" render={(props => <NewsDetailPage {...props} newsService={newsService}/>)}>
                     </Route>
                 </IonRouterOutlet>
                 <IonTabBar slot="bottom">

@@ -13,11 +13,11 @@ export default class NewsService {
 
     async list(): Promise<Entry[]> {
         const res = await this.http.get(this.baseUrl + '/news');
-        return await res.json();
+        return res.json();
     }
 
     async detail(id: number): Promise<Entry> {
         const res = await this.http.get(this.baseUrl + `/news/${id}`);
-        return await res.json();
+        return res.json();
     }
 }

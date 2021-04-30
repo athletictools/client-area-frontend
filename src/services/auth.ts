@@ -41,10 +41,10 @@ export class AuthStore {
             body: JSON.stringify({phoneNo, validationCode}),
         };
         const res = await this.http.post(this.baseUrl + '/login', req);
-        return await res.json();
+        return res.json();
     }
 
     async signOut(): Promise<void> {
-        const res = await this.http.post(this.baseUrl + '/logout', {});
+        await this.http.post(this.baseUrl + '/logout', {});
     }
 }
