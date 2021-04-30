@@ -30,16 +30,16 @@ import SignInPage from "./pages/auth/Auth";
 import User from "./auth/models";
 import {AuthStore, useUser} from "./services/auth";
 import MembershipService from "./services/memberships";
-import FetchHttpClient from "./httpClient";
 import NewsService from "./services/news";
 
-const App: React.FC = () => {
-    const baseApiUrl = 'http://localhost:3000';
-    const fetchHttpClient = new FetchHttpClient()
-    const membershipService = new MembershipService(fetchHttpClient, baseApiUrl);
-    const authService = new AuthStore(fetchHttpClient, baseApiUrl);
-    const newsService = new NewsService(fetchHttpClient, baseApiUrl);
 
+interface AppProps {
+    membershipService: MembershipService;
+    newsService: NewsService;
+    authService: AuthStore;
+}
+
+const App: React.FC<AppProps> = ({membershipService, authService, newsService}) => {
     const {user, setUser} = useUser()
 
     if (!user) {

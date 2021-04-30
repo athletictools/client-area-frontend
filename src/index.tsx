@@ -3,10 +3,21 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
+import FetchHttpClient from "./httpClient";
+import MembershipService from "./services/memberships";
+import {AuthStore} from "./services/auth";
+import NewsService from "./services/news";
+
+
+const baseApiUrl = 'http://localhost:3000';
+const fetchHttpClient = new FetchHttpClient()
+const membershipService = new MembershipService(fetchHttpClient, baseApiUrl);
+const authService = new AuthStore(fetchHttpClient, baseApiUrl);
+const newsService = new NewsService(fetchHttpClient, baseApiUrl);
 
 ReactDOM.render(
     <React.StrictMode>
-        <App/>
+        <App membershipService={membershipService} authService={authService} newsService={newsService}/>
     </React.StrictMode>,
     document.getElementById('root')
 );
