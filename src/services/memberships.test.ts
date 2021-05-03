@@ -1,9 +1,9 @@
-import {Membership, Visit} from "./models";
-import MembershipStore from "./store";
+import {Membership, Visit} from "../components/memberships/models";
+import MembershipService from "./memberships";
 
 
 test('store return entry list', async () => {
-    const store = new MembershipStore()
+    const store = new MembershipService()
     const expectedMemberships = [
         {
             id: 1,

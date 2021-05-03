@@ -15,6 +15,8 @@ import './ContactsPage.css';
 import React from "react";
 
 const LogoUrl = 'https://via.placeholder.com/150x150';
+
+
 const ContactsPage: React.FC = () => {
     return (
         <IonPage>

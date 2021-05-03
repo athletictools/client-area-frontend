@@ -1,22 +1,16 @@
 import React, {useEffect, useState} from "react";
 import {Membership, Visit} from "./models";
 import MembershipCard from "./MembershipCard";
-import MembershipStore from "./store";
+import MembershipService from "../../services/memberships";
 import {IonButton, IonModal} from "@ionic/react";
 import VisitsCard from "./VisitsCard";
 
+interface ActiveMembershipsProps {
+    memberships: Membership[];
 
-const ActiveMemberships: React.FC = () => {
-    const [memberships, setMemberships] = useState([] as Membership[])
+}
+const ActiveMemberships: React.FC<{ memberships: Membership[]; }> = ({memberships}) => {
     const [visitsToShow, setVisitsToShow] = useState([] as Visit[])
-
-    useEffect(() => {
-        async function loadData() {
-            setMemberships(await new MembershipStore().active());
-        }
-
-        loadData()
-    }, [])
 
     return (
         <div>

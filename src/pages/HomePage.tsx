@@ -1,11 +1,14 @@
 import {
-    IonAvatar, IonButton, IonButtons,
+    IonAvatar,
+    IonButton,
+    IonButtons,
     IonCard,
     IonCardContent,
     IonCardHeader,
     IonCardTitle,
     IonContent,
-    IonHeader, IonIcon,
+    IonHeader,
+    IonIcon,
     IonImg,
     IonItem,
     IonLabel,
@@ -19,18 +22,39 @@ import {
     IonToolbar
 } from '@ionic/react';
 import './HomePage.css';
-import React from "react";
+import React, {useEffect, useState} from "react";
 import ActiveMemberships from "../components/memberships/ActiveMemberships";
-import {home, logOut} from "ionicons/icons";
+import {logOut} from "ionicons/icons";
+import User from "../auth/models";
+import {Membership} from "../components/memberships/models";
+import MembershipService from "../services/memberships";
 
-const HomePage: React.FC = () => {
+interface HomePageProps {
+    setUser: (user: User | null) => void;
+    membershipService: MembershipService;
+}
+
+
+const HomePage: React.FC<HomePageProps> = ({setUser, membershipService}) => {
+    const [memberships, setMemberships] = useState([] as Membership[])
+
+    useEffect(() => {
+        async function loadData() {
+            setMemberships(await membershipService.active());
+        }
+
+        loadData()
+    }, [])
+
     return (
         <IonPage>
             <IonHeader>
                 <IonToolbar>
                     <IonTitle>Личный кабинет</IonTitle>
                     <IonButtons slot="end">
-                        <IonButton onClick={()=>{alert("sign out")}}>
+                        <IonButton onClick={() => {
+                            setUser(null)
+                        }}>
                             <IonIcon icon={logOut}/>
                         </IonButton>
                     </IonButtons>
@@ -85,7 +109,7 @@ const HomePage: React.FC = () => {
 
                 <IonTitle>Активные абонементы</IonTitle>
 
-                <ActiveMemberships/>
+                <ActiveMemberships memberships={memberships}/>
 
             </IonContent>
         </IonPage>

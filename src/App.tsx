@@ -25,20 +25,66 @@ import '@ionic/react/css/display.css';
 
 /* Theme variables */
 import './theme/variables.css';
+import React from "react";
+import SignInPage from "./pages/auth/Auth";
+import User from "./auth/models";
+import {AuthStore, useUser} from "./services/auth";
+import MembershipService from "./services/memberships";
+import NewsService from "./services/news";
 
-const App: React.FC = () => (
-    <IonApp>
+
+interface AppProps {
+    membershipService: MembershipService;
+    newsService: NewsService;
+    authService: AuthStore;
+}
+
+const App: React.FC<AppProps> = ({membershipService, authService, newsService}) => {
+    const {user, setUser} = useUser()
+
+    if (!user) {
+        return (
+            <SignInPage setUser={setUser} authService={authService}/>
+        )
+    }
+
+    return (
+        <IonApp>
+            <IonReactRouter>
+                <IonRouterOutlet>
+                    <Route path="/">
+                        <ClientArea setUser={setUser} membershipService={membershipService} newsService={newsService}/>
+                    </Route>
+                </IonRouterOutlet>
+            </IonReactRouter>
+        </IonApp>
+    );
+}
+
+
+interface ClientAreaProps {
+    setUser: (user: User | null) => void;
+    membershipService: MembershipService;
+    newsService: NewsService;
+}
+
+
+const ClientArea: React.FC<ClientAreaProps> = ({setUser, membershipService, newsService}) => {
+    return (
         <IonReactRouter>
             <IonTabs>
                 <IonRouterOutlet>
                     <Route exact path="/">
-                        <HomePage/>
+                        <HomePage setUser={setUser} membershipService={membershipService}/>
                     </Route>
-                    <Route path="/contacts">
+                    <Route exact path="/contacts">
                         <ContactsPage/>
                     </Route>
-                    <Route exact path="/news" component={NewsListPage}/>
-                    <Route exact path="/news/:id" component={NewsDetailPage}/>
+                    <Route exact path="/news">
+                        <NewsListPage newService={newsService}/>
+                    </Route>
+                    <Route exact path="/news/:id" render={(props => <NewsDetailPage {...props} newsService={newsService}/>)}>
+                    </Route>
                 </IonRouterOutlet>
                 <IonTabBar slot="bottom">
                     <IonTabButton tab="home" href="/">
@@ -53,7 +99,8 @@ const App: React.FC = () => (
                 </IonTabBar>
             </IonTabs>
         </IonReactRouter>
-    </IonApp>
-);
+    )
+}
+
 
 export default App;
